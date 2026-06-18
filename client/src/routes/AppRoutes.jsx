@@ -4,6 +4,8 @@ import Home from "../pages/Home";
 import Search from "../pages/Search";
 import Library from "../pages/Library";
 import Profile from "../pages/Profile";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
 
 function AppRoutes() {
     return (
@@ -12,6 +14,9 @@ function AppRoutes() {
             <Route path="/search" element={<Search />} />
             <Route path="/library" element={<Library />} />
             <Route path="/profile" element={<Profile />} />
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
         </Routes>
     );
 }
