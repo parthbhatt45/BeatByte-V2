@@ -1,50 +1,109 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import API_URL from "../services/api";
 
 function Login() {
-    return (
-        <div className="flex items-center justify-center min-h-screen bg-[#0f0f0f]">
-            <div className="bg-[#181818] p-8 rounded-xl w-full max-w-md shadow-lg">
+  const navigate = useNavigate();
 
-                <h1 className="text-3xl font-bold mb-6 text-center text-white">
-                    Login
-                </h1>
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-                <form className="flex flex-col gap-4">
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="p-3 rounded bg-[#282828] text-white outline-none"
-                    />
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="p-3 rounded bg-[#282828] text-white outline-none"
-                    />
+    try {
+      const response = await fetch(
+        `${API_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-                    <button
-                        type="submit"
-                        className="bg-green-500 hover:bg-green-600 text-black font-semibold p-3 rounded transition"
-                    >
-                        Login
-                    </button>
+      const data = await response.json();
 
-                    <p className="text-center text-gray-400">
-                        Don't have an account?{" "}
-                        <Link
-                            to="/register"
-                            className="text-green-500 hover:underline"
-                        >
-                            Register
-                        </Link>
-                    </p>
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
 
-                </form>
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-            </div>
-        </div>
-    );
+      alert("Login Successful");
+
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert("Login Failed");
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-[#0f0f0f]">
+      <div className="bg-[#181818] p-8 rounded-xl w-full max-w-md">
+
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Login
+        </h1>
+
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4"
+        >
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="p-3 rounded bg-[#282828] outline-none"
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="p-3 rounded bg-[#282828] outline-none"
+          />
+
+          <button
+            type="submit"
+            className="bg-green-500 text-black font-semibold p-3 rounded"
+          >
+            Login
+          </button>
+
+          <p className="text-center text-gray-400">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="text-green-500"
+            >
+              Register
+            </Link>
+          </p>
+
+        </form>
+
+      </div>
+    </div>
+  );
 }
 
 export default Login;
