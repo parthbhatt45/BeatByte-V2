@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     FaHome,
     FaSearch,
@@ -7,9 +7,21 @@ import {
 } from "react-icons/fa";
 
 function Sidebar() {
-    return (
-        <div className="w-64 h-screen bg-[#121212] p-5 border-r border-[#2a2a2a]">
+    const navigate = useNavigate();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/login");
+    };
+
+    return (
+        <div className="w-64 min-h-screen bg-[#121212] border-r border-[#2a2a2a] flex flex-col p-5">
+
+            {/* Logo */}
             <div className="mb-10">
                 <h1 className="text-3xl font-bold text-green-500">
                     BeatByte
@@ -20,7 +32,8 @@ function Sidebar() {
                 </p>
             </div>
 
-            <nav className="flex flex-col gap-5">
+            {/* Navigation */}
+            <nav className="flex flex-col gap-3">
 
                 <Link
                     to="/"
@@ -31,7 +44,7 @@ function Sidebar() {
                 </Link>
 
                 <Link
-                    to="/"
+                    to="/search"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#282828] transition-all duration-300"
                 >
                     <FaSearch />
@@ -39,7 +52,7 @@ function Sidebar() {
                 </Link>
 
                 <Link
-                    to="/"
+                    to="/library"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#282828] transition-all duration-300"
                 >
                     <FaMusic />
@@ -47,7 +60,7 @@ function Sidebar() {
                 </Link>
 
                 <Link
-                    to="/"
+                    to="/profile"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#282828] transition-all duration-300"
                 >
                     <FaUser />
@@ -55,6 +68,27 @@ function Sidebar() {
                 </Link>
 
             </nav>
+
+            {/* User Section */}
+            <div className="mt-auto border-t border-[#2a2a2a] pt-4">
+
+                <p className="text-sm text-gray-400">
+                    Welcome 👋
+                </p>
+
+                <h3 className="font-semibold mt-1">
+                    {user?.name || "User"}
+                </h3>
+
+                <button
+                    onClick={handleLogout}
+                    className="mt-4 w-full bg-red-500 hover:bg-red-600 transition p-2 rounded-lg font-medium"
+                >
+                    Logout
+                </button>
+
+            </div>
+
         </div>
     );
 }
