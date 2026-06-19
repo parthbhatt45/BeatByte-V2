@@ -1,89 +1,63 @@
+import { useEffect, useState } from "react";
 import SongCard from "../components/SongCard";
 import ArtistCard from "../components/ArtistCard";
+import { getSongs } from "../services/songService";
 
 function Home() {
-    const songs = [
-        {
-            id: 1,
-            title: "Blinding Lights",
-            artist: "The Weeknd",
-            image: "https://picsum.photos/300?1",
-        },
-        {
-            id: 2,
-            title: "Starboy",
-            artist: "The Weeknd",
-            image: "https://picsum.photos/300?2",
-        },
-        {
-            id: 3,
-            title: "Believer",
-            artist: "Imagine Dragons",
-            image: "https://picsum.photos/300?3",
-        },
-        {
-            id: 4,
-            title: "Levitating",
-            artist: "Dua Lipa",
-            image: "https://picsum.photos/300?4",
-        },
-    ];
+    const [songs, setSongs] = useState([]);
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    useEffect(() => {
+        const fetchSongs = async () => {
+            try {
+                const data = await getSongs();
+                setSongs(data);
+            } catch (error) {
+                console.error("Error fetching songs:", error);
+            }
+        };
+        fetchSongs();
+    }, []);
 
     const artists = [
-        {
-            id: 1,
-            name: "The Weeknd",
-            image: "https://picsum.photos/200?11",
-        },
-        {
-            id: 2,
-            name: "Dua Lipa",
-            image: "https://picsum.photos/200?12",
-        },
-        {
-            id: 3,
-            name: "Imagine Dragons",
-            image: "https://picsum.photos/200?13",
-        },
-        {
-            id: 4,
-            name: "Arijit Singh",
-            image: "https://picsum.photos/200?14",
-        },
+        { id: 1, name: "The Weeknd", image: "https://picsum.photos/200?11" },
+        { id: 2, name: "Dua Lipa", image: "https://picsum.photos/200?12" },
+        { id: 3, name: "Imagine Dragons", image: "https://picsum.photos/200?13" },
+        { id: 4, name: "Arijit Singh", image: "https://picsum.photos/200?14" },
     ];
 
     return (
-        <div>
-            <h1 className="text-4xl font-bold mb-8">
-                Good Evening 👋
-            </h1>
-
-            <h2 className="text-2xl font-semibold mb-5">
-                Trending Songs
-            </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {songs.map((song) => (
-                    <SongCard
-                        key={song.id}
-                        song={song}
-                    />
-                ))}
+        <>
+            <div style={{ marginBottom: '40px' }}>
+                <p style={{ color: 'var(--accent)', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Good Evening 👋</p>
+                <h1 className="page-heading">Welcome back, {user?.name || 'Guest'}</h1>
             </div>
 
-            <h2 className="text-2xl font-semibold mt-12 mb-5">
-                Featured Artists
-            </h2>
+            <section className="section">
+                <h2 className="section-heading">Trending Songs</h2>
+                <div className="card-grid">
+                    {songs.map((song) => (
+                        <SongCard
+                            key={song._id}
+                            song={{
+                                title: song.title,
+                                artist: song.artist,
+                                image: song.coverImage,
+                            }}
+                        />
+                    ))}
+                </div>
+            </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {artists.map((artist) => (
-                    <ArtistCard
-                        key={artist.id}
-                        artist={artist}
-                    />
-                ))}
-            </div>
-        </div>
+            <section className="section">
+                <h2 className="section-heading">Featured Artists</h2>
+                <div className="card-grid">
+                    {artists.map((artist) => (
+                        <ArtistCard key={artist.id} artist={artist} />
+                    ))}
+                </div>
+            </section>
+        </>
     );
 }
 
