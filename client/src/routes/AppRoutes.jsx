@@ -6,17 +6,23 @@ import Library from "../pages/Library";
 import Profile from "../pages/Profile";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ArtistPage from "../pages/ArtistPage";
 
 import ProtectedRoute from "./ProtectedRoute";
 
 function AppRoutes() {
     return (
         <Routes>
-            {/* Public Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+                path="/login"
+                element={<Login />}
+            />
 
-            {/* Protected Routes */}
+            <Route
+                path="/register"
+                element={<Register />}
+            />
+
             <Route
                 path="/"
                 element={
@@ -49,6 +55,15 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <Profile />
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/artist/:artistName"
+                element={
+                    <ProtectedRoute>
+                        <ArtistPage />
                     </ProtectedRoute>
                 }
             />
