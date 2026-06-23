@@ -1,3 +1,3 @@
-const API_URL = "http://localhost:5000/api/users";
+const API_URL = "https://beatbyte-v2.onrender.com";
 
 export default API_URL;

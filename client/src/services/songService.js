@@ -1,5 +1,5 @@
 const SONG_API =
-    "http://localhost:5000/api/songs";
+    "https://beatbyte-v2.onrender.com";
 
 export const getSongs = async () => {
     const response = await fetch(SONG_API);
