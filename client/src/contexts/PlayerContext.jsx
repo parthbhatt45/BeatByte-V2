@@ -13,8 +13,14 @@ import {
 } from "../utils/localStorage";
 
 const PlayerContext = createContext();
+const user = JSON.parse(
+    localStorage.getItem("user")
+);
 
-const RECENTLY_PLAYED_KEY = "recentlyPlayedSongs";
+const RECENTLY_PLAYED_KEY = user?.email
+    ? `recentlyPlayed_${user.email}`
+    : "recentlyPlayed_guest";
+
 const MAX_RECENTLY_PLAYED = 20;
 
 export function PlayerProvider({ children }) {
@@ -34,8 +40,10 @@ export function PlayerProvider({ children }) {
     const audioRef = useRef(new Audio());
 
     useEffect(() => {
-        setRecentlyPlayed(getStoredArray(RECENTLY_PLAYED_KEY));
-    }, []);
+        setRecentlyPlayed(
+            getStoredArray(RECENTLY_PLAYED_KEY)
+        );
+    }, [RECENTLY_PLAYED_KEY]);
 
     useEffect(() => {
         audioRef.current.volume = volume / 100;

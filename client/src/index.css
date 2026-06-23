@@ -872,31 +872,55 @@ input:focus {
 }
 
 @media (max-width: 768px) {
+
   .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    top: auto;
     width: 100%;
-    height: auto;
-    position: relative;
+    height: 70px;
+    padding: 0 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--glass-border);
     border-right: none;
-    border-bottom: 1px solid var(--glass-border);
-    flex-direction: row;
+    display: flex;
     align-items: center;
-    padding: 12px 16px;
-    gap: 24px;
+    justify-content: center;
+    z-index: 9999;
   }
 
-  .sidebar-logo {
-    flex: 1;
-  }
-
-  .sidebar-nav,
+  .sidebar-logo,
   .sidebar-user {
     display: none;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+    font-size: 11px;
+  }
+
+  .nav-item svg {
+    font-size: 18px;
   }
 
   .main-content {
     margin-left: 0;
     padding: 24px 16px;
-    padding-bottom: 220px;
+    padding-bottom: 260px;
   }
 
   .card-grid {
@@ -912,16 +936,14 @@ input:focus {
     font-size: 20px;
   }
 
-  .library-stats {
-    grid-template-columns: 1fr;
-  }
-
+  .library-stats,
   .library-stats.two-columns {
     grid-template-columns: 1fr;
   }
 
   .player {
     left: 0;
+    bottom: 70px;
     min-height: 180px;
     grid-template-columns: 1fr;
     gap: 14px;
