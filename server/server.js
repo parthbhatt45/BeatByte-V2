@@ -14,7 +14,15 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+    cors({
+        origin: [
+            "https://beat-byte-v2.vercel.app",
+            "http://localhost:5173"
+        ],
+        credentials: true,
+    })
+);
 app.use(express.json());
 
 // Test Route
