@@ -266,29 +266,6 @@ Features:
 
 ---
 
-# 📸 Screenshots
-
-## Home Page
-
-- Trending Songs
-- Featured Artists
-- Personalized Welcome Message
-
-## Music Player
-
-- Album Cover
-- Song Details
-- Playback Controls
-- Volume Slider
-- Shuffle & Repeat
-
-## Library
-
-- Liked Songs
-- Recently Played Songs
-
----
-
 # 🔮 Future Enhancements
 
 - Playlist Creation
