@@ -129,6 +129,21 @@ export function PlayerProvider({ children }) {
         }
     }, [currentSong, isPlaying]);
 
+    const stopPlayer = () => {
+        const audio = audioRef.current;
+
+        audio.pause();
+        audio.currentTime = 0;
+        audio.src = "";
+
+        setCurrentSong(null);
+        setIsPlaying(false);
+
+        setProgress(0);
+        setCurrentTime(0);
+        setDuration(0);
+    };
+
     const getRandomSong = useCallback(() => {
         if (!songs.length) return null;
 
@@ -272,6 +287,7 @@ export function PlayerProvider({ children }) {
 
                 playSong,
                 togglePlay,
+                stopPlayer,
 
                 playNext,
                 playPrevious,
